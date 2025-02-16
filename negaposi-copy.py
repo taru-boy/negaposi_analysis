@@ -1,10 +1,8 @@
-# 形態素解析をするためのjanomeをimport
-from pprint import pprint
-
+# pandasをimport
 import pandas as pd
-from janome.tokenizer import Tokenizer
 
-# pandas
+# 形態素解析をするためのjanomeをimport
+from janome.tokenizer import Tokenizer
 
 """
 データフレームを引数に受け取り、
@@ -39,18 +37,20 @@ for sentence in sentences:
         if word in np_dic:
             # 値(pかnかeか?p?nのどれか)をvalueという文字で置く
             value = np_dic[word]
-
-# キーの存在確認
-
-# p,n,e,?p?nの個数を数える
+            # キーの存在確認
+            if value in result:
+                # p,n,e,?p?nの個数を数える
+                result[value] += 1
 
 # 総和を求める
+summary = sum(result.values())
 
-# ネガポジ度の平均（pの総数 / summary, nの総数 / summary）を数値でそれぞれ出力
-# summaryが0の場合もあるので、try-exceptで例外処理
-
-# ポジティブ度の平均
-
-# ネガティブ度の平均
-
-# summaryが0の場合
+try:
+    # ネガポジ度の平均（pの総数 / summary, nの総数 / summary）を数値でそれぞれ出力
+    # ポジティブ度の平均
+    print("ポジティブ度の平均: ", result["p"] / summary)
+    # ネガティブ度の平均
+    print("ネガティブ度の平均: ", result["n"] / summary)
+except ZeroDivisionError as e:
+    # summaryが0の場合もあるので、try-exceptで例外処理
+    print("summaryが0です：", e)
